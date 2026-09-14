@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dsu340y7a5lp3"]
+
+[ext_resource type="Script" uid="uid://dacih58fhdbkv" path="res://Personagem/personagem.gd" id="1_86afj"]
+[ext_resource type="Script" uid="uid://cly01wbfvnv2m" path="res://Personagem/gerenciador_estado.gd" id="2_kcx2x"]
+
+[node name="Personagem" type="CharacterBody2D" unique_id=2133936195]
+script = ExtResource("1_86afj")
+
+[node name="GerenciadorEstado" type="Node2D" parent="." unique_id=203663068]
+script = ExtResource("2_kcx2x")

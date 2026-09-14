@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://y2ck0x7unhql"]
+
+[ext_resource type="Script" uid="uid://b0taiem2ls6kj" path="res://Personagem/Kaiju_1/kaiju_1.gd" id="1_73tcc"]
+[ext_resource type="Texture2D" uid="uid://dsv63o3njqye8" path="res://icon.svg" id="2_sorg4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8woj3"]
+radius = 68.359344
+
+[node name="Kaiju1" type="CharacterBody2D" unique_id=2143121448]
+script = ExtResource("1_73tcc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1279271685]
+texture = ExtResource("2_sorg4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1819550659]
+shape = SubResource("CircleShape2D_8woj3")
