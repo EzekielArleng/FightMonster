@@ -1,11 +1,13 @@
 class_name Personagem
 extends CharacterBody2D
 
+@export_category("Status")
+@export var vida: float
+@export var energia: float
 
 @export_category("Movement")
 @export var speed: float = 3.0
 @export_range(0.0, 1.0) var lerp_smoothness: float = 0.5
-
 
 var input_vector: Vector2 = Vector2.ZERO
 
@@ -88,3 +90,12 @@ func selecionar_especial(indice: int) -> void:
 	
 func executar_especial(_indice: int) -> void:
 	pass
+	
+func receber_dano(dano: float) -> void:
+	vida -= dano
+	
+func usar_energia(energia_gasta: float) -> void:
+	energia -= energia_gasta
+	
+func recuperar_energia(energia_recuperada: float) -> void:
+	energia += energia_recuperada

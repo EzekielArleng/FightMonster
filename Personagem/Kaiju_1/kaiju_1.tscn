@@ -8,6 +8,8 @@ radius = 68.359344
 
 [node name="Kaiju1" type="CharacterBody2D" unique_id=2143121448]
 script = ExtResource("1_73tcc")
+vida = 100.0
+energia = 50.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1279271685]
 texture = ExtResource("2_sorg4")
