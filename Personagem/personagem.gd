@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export_category("Status")
 @export var vida: float
 @export var energia: float
+@export var energia_max: float
 
 @export_category("Movement")
 @export var speed: float = 3.0
@@ -12,7 +13,6 @@ extends CharacterBody2D
 var input_vector: Vector2 = Vector2.ZERO
 
 var gerenciador_estado: GerenciadorEstado = GerenciadorEstado.new()
-
 
 func _process(_delta: float) -> void:
 	input_vector = Vector2.ZERO
@@ -41,7 +41,6 @@ func _physics_process(_delta: float) -> void:
 func movimentar() -> void:
 	var target_velocity: Vector2 = input_vector * speed * 100.0
 	velocity = velocity.lerp(target_velocity, lerp_smoothness)
-
 
 func _input(event: InputEvent) -> void:
 	
@@ -75,7 +74,6 @@ func _input(event: InputEvent) -> void:
 		if gerenciador_estado.esta_livre():
 			atacar_neutro()
 
-
 func atacar_neutro() -> void:
 	pass
 
@@ -92,10 +90,25 @@ func executar_especial(_indice: int) -> void:
 	pass
 	
 func receber_dano(dano: float) -> void:
-	vida -= dano
+	if (dano > vida):
+		vida = 0
+	else:
+		vida -= dano
+	
+	if (vida <= 0):
+		morrer()
+	
+func morrer() -> void:
+	queue_free()
 	
 func usar_energia(energia_gasta: float) -> void:
-	energia -= energia_gasta
+	if (energia_gasta > energia):
+		energia = 0
+	else:
+		energia -= energia_gasta
 	
 func recuperar_energia(energia_recuperada: float) -> void:
-	energia += energia_recuperada
+	if (energia + energia_recuperada > energia_max):
+		energia = energia_max
+	else:
+		energia += energia_recuperada
