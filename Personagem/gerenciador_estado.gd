@@ -12,10 +12,8 @@ enum Tipo {
 
 var estado_atual: Tipo = Tipo.LIVRE
 
-
 func mudar_estado(novo_estado: Tipo) -> void:
 	estado_atual = novo_estado
-
 
 func mudar_estado_temporario( novo_estado: Tipo, duracao: float) -> void:
 	estado_atual = novo_estado

@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[global_group]
+
+Ataque_neutro="Grupo de areas 2D que representam ataques neutros"
+Ataque_especial="Grupo de areas 2D que representam os ataques especiais"
+
 [input]
 
 Ataque_neutro={

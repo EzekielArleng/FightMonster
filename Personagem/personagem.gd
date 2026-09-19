@@ -10,6 +10,26 @@ extends CharacterBody2D
 @export var speed: float = 3.0
 @export_range(0.0, 1.0) var lerp_smoothness: float = 0.5
 
+@export_category("Dano Ataques")
+@export var dano_ataque_neutro: float
+@export var dano_ataque_1: float
+@export var dano_ataque_2: float
+@export var dano_ataque_3: float
+@export var dano_ataque_4: float
+
+@export_category("Tempo Ataques")
+@export var tempo_ataque_neutro: float
+@export var tempo_ataque_1: float
+@export var tempo_ataque_2: float
+@export var tempo_ataque_3: float
+@export var tempo_ataque_4: float
+
+@export_category("Energia Ataques")
+@export var energia_ataque_1: float
+@export var energia_ataque_2: float
+@export var energia_ataque_3: float
+@export var energia_ataque_4: float
+
 var input_vector: Vector2 = Vector2.ZERO
 
 var gerenciador_estado: GerenciadorEstado = GerenciadorEstado.new()
@@ -94,6 +114,7 @@ func receber_dano(dano: float) -> void:
 		vida = 0
 	else:
 		vida -= dano
+		print("Dano recebido:", dano)
 	
 	if (vida <= 0):
 		morrer()

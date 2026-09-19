@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://k6ikrd86g5dk"]
+
+[ext_resource type="PackedScene" uid="uid://y2ck0x7unhql" path="res://Personagem/Kaiju_1/kaiju_1.tscn" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://dpulvygpbbnrr" path="res://Cenario/Obstaculo_teste.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://bxqm320rxmpas" path="res://Cenario/obstaculo_teste2.tscn" id="3_h2yge"]
+
+[node name="Main" type="Node2D" unique_id=1950958831]
+
+[node name="Kaiju1" parent="." unique_id=2143121448 instance=ExtResource("1_0xm2m")]
+position = Vector2(148, 319)
+
+[node name="Label" type="Label" parent="." unique_id=1338928723]
+offset_left = 130.0
+offset_top = 4.0
+offset_right = 240.0
+offset_bottom = 97.0
+theme_override_font_sizes/font_size = 32
+text = "Neutro"
+
+[node name="Label2" type="Label" parent="." unique_id=977825328]
+offset_left = 381.0
+offset_top = 1.0
+offset_right = 532.0
+offset_bottom = 94.0
+theme_override_font_sizes/font_size = 32
+text = "Especial 1"
+
+[node name="Label3" type="Label" parent="." unique_id=992798564]
+offset_left = 599.0
+offset_top = 192.0
+offset_right = 750.0
+offset_bottom = 285.0
+theme_override_font_sizes/font_size = 32
+text = "Especial 2"
+
+[node name="Label4" type="Label" parent="." unique_id=478319320]
+offset_left = 376.0
+offset_top = 593.0
+offset_right = 527.0
+offset_bottom = 686.0
+theme_override_font_sizes/font_size = 32
+text = "Especial 3"
+
+[node name="Label5" type="Label" parent="." unique_id=1331373579]
+offset_left = 100.0
+offset_top = 594.0
+offset_right = 251.0
+offset_bottom = 687.0
+theme_override_font_sizes/font_size = 32
+text = "Especial 4
+"
+
+[node name="ObstaculoTeste2" parent="." unique_id=366553220 instance=ExtResource("3_h2yge")]
+position = Vector2(464, 137)
+tipo_ataque = 1
+
+[node name="ObstaculoTeste3" parent="." unique_id=234952720 instance=ExtResource("3_h2yge")]
+position = Vector2(681, 340)
+tipo_ataque = 2
+
+[node name="ObstaculoTeste4" parent="." unique_id=330372377 instance=ExtResource("3_h2yge")]
+position = Vector2(452, 508)
+tipo_ataque = 3
+
+[node name="ObstaculoTeste5" parent="." unique_id=836469848 instance=ExtResource("3_h2yge")]
+position = Vector2(161, 524)
+tipo_ataque = 4
+
+[node name="ObstaculoTeste" parent="." unique_id=780299668 instance=ExtResource("2_h2yge")]
+position = Vector2(179, 126)

@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dpulvygpbbnrr"]
+
+[ext_resource type="Texture2D" uid="uid://dsv63o3njqye8" path="res://icon.svg" id="1_mckrb"]
+[ext_resource type="Script" uid="uid://baxjknrdjdrft" path="res://Cenario/obstaculo_teste.gd" id="1_rw0vp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t1lyo"]
+radius = 74.672615
+
+[node name="ObstaculoTeste" type="Node2D" unique_id=780299668]
+script = ExtResource("1_rw0vp")
+dano_ataque_neutro = 1.0
+dano_ataque_1 = 2.0
+dano_ataque_2 = 4.0
+dano_ataque_3 = 8.0
+dano_ataque_4 = 16.0
+
+[node name="Area2D" type="Area2D" parent="." unique_id=929268432 groups=["Ataque_neutro"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1857809912]
+shape = SubResource("CircleShape2D_t1lyo")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=748039475]
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("1_mckrb")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
