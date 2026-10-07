@@ -6,7 +6,9 @@ enum Tipo {
 	LIVRE,
 	ATACANDO_NEUTRO,
 	ATACANDO_ESPECIAL,
-	SELECIONANDO_ESPECIAL
+	SELECIONANDO_ESPECIAL,
+	BLOQUEANDO,
+	EVADINDO
 }
 
 
@@ -48,3 +50,17 @@ func cancelar_selecao_especial() -> void:
 	if estado_atual == Tipo.SELECIONANDO_ESPECIAL:
 		estado_atual = Tipo.LIVRE
 		print("Seleção de ataque especial cancelada")
+		
+func esta_bloqueando() -> bool:
+	return estado_atual == Tipo.BLOQUEANDO
+	
+func iniciar_bloqueio() -> void:
+	if (estado_atual == Tipo.LIVRE):
+		estado_atual = Tipo.BLOQUEANDO
+
+func finalizar_bloqueio() -> void:
+	if (estado_atual == Tipo.BLOQUEANDO):
+		estado_atual = Tipo.LIVRE
+		
+func esta_evadindo() -> bool:
+	return estado_atual == Tipo.EVADINDO

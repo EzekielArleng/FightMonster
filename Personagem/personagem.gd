@@ -30,28 +30,46 @@ extends CharacterBody2D
 @export var energia_ataque_3: float
 @export var energia_ataque_4: float
 
+@export_category("Block/Evasão")
+@export var tempo_para_bloquear: float = 0.2
+@export var velocidade_evasao: float = 800.0
+@export var duracao_evasao: float = 0.2
+
+var tempo_botao_defesa: float = 0.0
+var botao_defesa_pressionado: bool = false
+var direcao_evasao: Vector2 = Vector2.ZERO
+
 var input_vector: Vector2 = Vector2.ZERO
 
 var gerenciador_estado: GerenciadorEstado = GerenciadorEstado.new()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	if (botao_defesa_pressionado):
+		tempo_botao_defesa += delta
+		
+		if (tempo_botao_defesa >= tempo_para_bloquear and gerenciador_estado.esta_livre()):
+			gerenciador_estado.iniciar_bloqueio()
+			print("BLOCK iniciado - botão segurado por: ", tempo_botao_defesa)
+	
 	input_vector = Vector2.ZERO
 
-	if not gerenciador_estado.esta_livre():
+	if (not gerenciador_estado.esta_livre() and not gerenciador_estado.esta_bloqueando()):
 		return
 
 	var horizontal := Input.get_axis("ui_left", "ui_right")
 	var vertical := Input.get_axis("ui_up", "ui_down")
 
-	if horizontal != 0:
+	if (horizontal != 0):
 		input_vector.x = horizontal
-	elif vertical != 0:
+	elif (vertical != 0):
 		input_vector.y = vertical
 
 
 func _physics_process(_delta: float) -> void:
-	if gerenciador_estado.esta_livre():
+	if (gerenciador_estado.esta_livre() or gerenciador_estado.esta_bloqueando()):
 		movimentar()
+	elif (gerenciador_estado.esta_evadindo()):
+		movimentar_evasao()
 	else:
 		velocity = Vector2.ZERO
 
@@ -64,6 +82,29 @@ func movimentar() -> void:
 
 func _input(event: InputEvent) -> void:
 	
+	# Iniciar bloqueio
+	if event.is_action_pressed("Block_evasao"):
+		if (gerenciador_estado.esta_livre()):
+			botao_defesa_pressionado = true
+			tempo_botao_defesa = 0.0
+			print("Botão de defesa pressionado")
+		return
+
+# Finalizar bloqueio
+	if (event.is_action_released("Block_evasao")):
+		if (botao_defesa_pressionado):
+			botao_defesa_pressionado = false
+			if (gerenciador_estado.esta_bloqueando()):
+				gerenciador_estado.finalizar_bloqueio()
+				print("BLOCK finalizado - tempo total: ", tempo_botao_defesa)
+			else:
+				print("EVASÃO detectada - toque de: ", tempo_botao_defesa)
+				iniciar_evasao()
+
+			tempo_botao_defesa = 0.0
+		
+		return
+		
 	# Soltar X sem escolher um ataque cancela a seleção
 	if event.is_action_released("Ataque_especial"):
 		if gerenciador_estado.esta_selecionando_especial():
@@ -110,11 +151,17 @@ func executar_especial(_indice: int) -> void:
 	pass
 	
 func receber_dano(dano: float) -> void:
+	if (esta_invulneravel()):
+		print("Dano ignorado - personagem invulnerável")
+		return
+	
 	if (dano > vida):
 		vida = 0
 	else:
 		vida -= dano
-		print("Dano recebido:", dano)
+	
+	print("Dano recebido: ", dano)
+	print("Vida atual: ", vida)
 	
 	if (vida <= 0):
 		morrer()
@@ -133,3 +180,36 @@ func recuperar_energia(energia_recuperada: float) -> void:
 		energia = energia_max
 	else:
 		energia += energia_recuperada
+
+func iniciar_evasao() -> void:
+	if (not gerenciador_estado.esta_livre()):
+		return
+	
+	if (input_vector == Vector2.ZERO):
+		print("Evasão cancelada: nenhuma direção selecionada")
+		return
+	
+	direcao_evasao = input_vector.normalized()
+	
+	gerenciador_estado.mudar_estado(
+		GerenciadorEstado.Tipo.EVADINDO
+	)
+	
+	print("Evasão iniciada")
+	print("Direção da evasão: ", direcao_evasao)
+	
+	await get_tree().create_timer(duracao_evasao).timeout
+	
+	if (gerenciador_estado.esta_evadindo()):
+		gerenciador_estado.mudar_estado(
+			GerenciadorEstado.Tipo.LIVRE
+		)
+		
+		print("Evasão finalizada")
+		
+func movimentar_evasao() -> void:
+	velocity = direcao_evasao * velocidade_evasao
+	
+func esta_invulneravel() -> bool:
+	return (
+		gerenciador_estado.esta_bloqueando() or gerenciador_estado.esta_evadindo())

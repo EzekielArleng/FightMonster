@@ -5,6 +5,7 @@
 
 [node name="Personagem" type="CharacterBody2D" unique_id=2133936195]
 script = ExtResource("1_86afj")
+velocidade_evasao = 1500.0
 
 [node name="GerenciadorEstado" type="Node2D" parent="." unique_id=203663068]
 script = ExtResource("2_kcx2x")
