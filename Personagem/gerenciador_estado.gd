@@ -8,7 +8,8 @@ enum Tipo {
 	ATACANDO_ESPECIAL,
 	SELECIONANDO_ESPECIAL,
 	BLOQUEANDO,
-	EVADINDO
+	EVADINDO,
+	KNOCKBACK
 }
 
 
@@ -64,3 +65,6 @@ func finalizar_bloqueio() -> void:
 		
 func esta_evadindo() -> bool:
 	return estado_atual == Tipo.EVADINDO
+	
+func esta_em_knockback() -> bool:
+	return estado_atual == Tipo.KNOCKBACK

@@ -39,6 +39,18 @@ var tempo_botao_defesa: float = 0.0
 var botao_defesa_pressionado: bool = false
 var direcao_evasao: Vector2 = Vector2.ZERO
 
+@export_category("Knockback")
+@export var desaceleracao_knockback: float = 1500.0
+@export var velocidade_minima_knockback: float = 10.0
+@export var knockback_ataque_neutro: float = 500.0
+@export var knockback_ataque_1: float = 500.0
+@export var knockback_ataque_2: float = 500.0
+@export var knockback_ataque_3: float = 500.0
+@export var knockback_ataque_4: float = 500.0
+
+var direcao_knockback: Vector2 = Vector2.ZERO
+var velocidade_knockback: float = 0.0
+
 var input_vector: Vector2 = Vector2.ZERO
 
 var gerenciador_estado: GerenciadorEstado = GerenciadorEstado.new()
@@ -65,11 +77,13 @@ func _process(delta: float) -> void:
 		input_vector.y = vertical
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if (gerenciador_estado.esta_livre() or gerenciador_estado.esta_bloqueando()):
 		movimentar()
 	elif (gerenciador_estado.esta_evadindo()):
 		movimentar_evasao()
+	elif (gerenciador_estado.esta_em_knockback()):
+		movimentar_knockback(delta)
 	else:
 		velocity = Vector2.ZERO
 
@@ -81,6 +95,9 @@ func movimentar() -> void:
 	velocity = velocity.lerp(target_velocity, lerp_smoothness)
 
 func _input(event: InputEvent) -> void:
+	
+	if event.is_action_pressed("ui_accept"):
+		receber_knockback(Vector2.LEFT, 700.0)
 	
 	# Iniciar bloqueio
 	if event.is_action_pressed("Block_evasao"):
@@ -195,6 +212,8 @@ func iniciar_evasao() -> void:
 		GerenciadorEstado.Tipo.EVADINDO
 	)
 	
+	set_collision_mask_value(2, false)
+	
 	print("Evasão iniciada")
 	print("Direção da evasão: ", direcao_evasao)
 	
@@ -204,8 +223,10 @@ func iniciar_evasao() -> void:
 		gerenciador_estado.mudar_estado(
 			GerenciadorEstado.Tipo.LIVRE
 		)
+	
+	set_collision_mask_value(2, true)
 		
-		print("Evasão finalizada")
+	print("Evasão finalizada")
 		
 func movimentar_evasao() -> void:
 	velocity = direcao_evasao * velocidade_evasao
@@ -213,3 +234,41 @@ func movimentar_evasao() -> void:
 func esta_invulneravel() -> bool:
 	return (
 		gerenciador_estado.esta_bloqueando() or gerenciador_estado.esta_evadindo())
+
+func receber_knockback(direcao: Vector2, forca: float) -> void:
+	if (esta_invulneravel()):
+		print("Knockback ignorado - personagem invulneravel")
+		return
+	
+	if (direcao == Vector2.ZERO):
+		return
+	
+	direcao_knockback = direcao.normalized()
+	velocidade_knockback = forca
+	
+	gerenciador_estado.mudar_estado(
+		GerenciadorEstado.Tipo.KNOCKBACK
+	)
+	
+	print("KNOCKBACK iniciado")
+	print("Direção: ", direcao_knockback)
+	print("Força: ", forca)
+	
+func movimentar_knockback(delta: float) -> void:
+	velocity = direcao_knockback * velocidade_knockback
+	
+	velocidade_knockback = move_toward(
+		velocidade_knockback,
+		0.0,
+		desaceleracao_knockback * delta
+	)
+	
+	if (velocidade_knockback <= velocidade_minima_knockback):
+		velocidade_knockback = 0.0
+		velocity = Vector2.ZERO
+		
+		gerenciador_estado.mudar_estado(
+			GerenciadorEstado.Tipo.LIVRE
+		)
+		
+		print("KNOCKBACK finalizado")

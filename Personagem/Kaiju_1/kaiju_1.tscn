@@ -27,6 +27,8 @@ radius = 128.47179
 size = Vector2(274.5, 58)
 
 [node name="Kaiju1" type="CharacterBody2D" unique_id=2143121448]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_73tcc")
 vida = 100.0
 energia = 50.0

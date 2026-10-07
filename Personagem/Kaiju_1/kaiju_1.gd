@@ -19,6 +19,7 @@ var tipo_ataque: int
 @onready var efeito_atq_especial4: Polygon2D = $Hitbox_atq_especial4/Polygon2D
 
 
+
 func atacar_neutro() -> void:
 	#Mudanca de estado
 	gerenciador_estado.mudar_estado_temporario(GerenciadorEstado.Tipo.ATACANDO_NEUTRO,tempo_ataque_neutro)
@@ -174,12 +175,21 @@ func ataque_especial_4() -> void:
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
+	
 	if (area.is_in_group("Ataque_neutro")):
+		
 		var kaiju_atacante = area.get_parent()
+		
 		if (kaiju_atacante == self):
 			return
+			
 		print("Hurtbox atingida por um ataque neutro!")
+		
+		var direcao_ataque: Vector2 = (area.global_position - kaiju_atacante.global_position).normalized()
+		
 		receber_dano(kaiju_atacante.dano_ataque_neutro)
+		receber_knockback(direcao_ataque,kaiju_atacante.knockback_ataque_neutro)
+		
 	elif (area.is_in_group("Ataque_especial")):
 		var kaiju_atacante = area.get_parent()
 		if (kaiju_atacante == self):
@@ -188,9 +198,13 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 		match kaiju_atacante.tipo_ataque:
 			1:
 				receber_dano(kaiju_atacante.dano_ataque_1)
+				receber_knockback(kaiju_atacante.direcao_knockback,kaiju_atacante.knockback_ataque_1)
 			2:
 				receber_dano(kaiju_atacante.dano_ataque_2)
+				receber_knockback(kaiju_atacante.direcao_knockback,kaiju_atacante.knockback_ataque_2)
 			3:
 				receber_dano(kaiju_atacante.dano_ataque_3)
+				receber_knockback(kaiju_atacante.direcao_knockback,kaiju_atacante.knockback_ataque_3)
 			4:
 				receber_dano(kaiju_atacante.dano_ataque_4)
+				receber_knockback(kaiju_atacante.direcao_knockback,kaiju_atacante.knockback_ataque_4)
