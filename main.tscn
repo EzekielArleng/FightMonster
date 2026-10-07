@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://y2ck0x7unhql" path="res://Personagem/Kaiju_1/kaiju_1.tscn" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://dpulvygpbbnrr" path="res://Cenario/Obstaculo_teste.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bxqm320rxmpas" path="res://Cenario/obstaculo_teste2.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://dnbirqv1bcfyw" path="res://pause_menu.tscn" id="4_1bvp3"]
 
 [node name="Main" type="Node2D" unique_id=1950958831]
 
@@ -68,3 +69,8 @@ tipo_ataque = 4
 
 [node name="ObstaculoTeste" parent="." unique_id=780299668 instance=ExtResource("2_h2yge")]
 position = Vector2(179, 126)
+
+[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=1416717981]
+layer = 100
+
+[node name="PauseMenu" parent="PauseLayer" unique_id=995122436 instance=ExtResource("4_1bvp3")]
