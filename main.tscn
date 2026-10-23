@@ -11,6 +11,10 @@
 [node name="Kaiju1" parent="." unique_id=2143121448 instance=ExtResource("1_0xm2m")]
 position = Vector2(148, 319)
 
+[node name="Kaiju2" parent="." unique_id=395542241 instance=ExtResource("1_0xm2m")]
+position = Vector2(939, 329)
+jogador = 2
+
 [node name="Label" type="Label" parent="." unique_id=1338928723]
 offset_left = 582.0
 offset_top = 190.0

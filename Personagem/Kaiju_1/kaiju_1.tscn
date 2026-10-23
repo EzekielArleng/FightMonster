@@ -71,7 +71,7 @@ disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="Hitbox_atq_neutro" unique_id=125981028]
 visible = false
-color = Color(1, 0, 0, 1)
+color = Color(1, 0, 0, 0.36862746)
 polygon = PackedVector2Array(-79, -25, -80, 28, 57, 28, 59, -26)
 
 [node name="Hitbox_atq_especial1" type="Area2D" parent="." unique_id=587249194 groups=["Ataque_especial"]]
@@ -84,7 +84,7 @@ disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="Hitbox_atq_especial1" unique_id=311559103]
 visible = false
-color = Color(0, 0, 1, 1)
+color = Color(0, 0, 1, 0.3764706)
 polygon = PackedVector2Array(-73, -102, -48, -130, -6, -144, 33, -126, 53, -94, 56, 90, 37, 130, -12, 144, -60, 121, -73, 76)
 
 [node name="Hitbox_atq_especial2" type="Area2D" parent="." unique_id=1215856629 groups=["Ataque_especial"]]
@@ -98,7 +98,7 @@ disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="Hitbox_atq_especial2" unique_id=865313953]
 visible = false
-color = Color(0, 1, 0, 1)
+color = Color(0, 1, 0, 0.38431373)
 polygon = PackedVector2Array(117, -53, -213, -57, -253, -30, -256, 16, -220, 49, 120, 55, 158, 30, 165, -23)
 
 [node name="Hitbox_atq_especial3" type="Area2D" parent="." unique_id=1796175296 groups=["Ataque_especial"]]
@@ -111,7 +111,7 @@ disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="Hitbox_atq_especial3" unique_id=873949866]
 visible = false
-color = Color(1, 1, 0, 1)
+color = Color(1, 1, 0, 0.5058824)
 polygon = PackedVector2Array(-145, -133, -206, -117, -254, -69, -270, -29, -271, -7, -264, 44, -246, 72, -222, 95, -191, 113, -155, 124, -106, 119, -70, 100, -37, 61, -19, 12, -17, -34, -45, -90, -84, -117)
 
 [node name="Hitbox_atq_especial4" type="Area2D" parent="." unique_id=1100673204 groups=["Ataque_especial"]]
@@ -124,7 +124,7 @@ disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="Hitbox_atq_especial4" unique_id=1829416905]
 visible = false
-color = Color(1, 0, 1, 1)
+color = Color(1, 0, 1, 0.41960785)
 polygon = PackedVector2Array(-237, -135, -239, -73, 40, -72, 40, -125)
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

@@ -20,31 +20,48 @@ var tipo_ataque: int
 
 
 
+
 func atacar_neutro() -> void:
-	#Mudanca de estado
-	gerenciador_estado.mudar_estado_temporario(GerenciadorEstado.Tipo.ATACANDO_NEUTRO,tempo_ataque_neutro)
-	
-	#Sinalização de qual ataque o kaiju está usando
+	# Impede outras ações durante a preparação e o ataque
+	gerenciador_estado.mudar_estado_temporario(
+		GerenciadorEstado.Tipo.ATACANDO_NEUTRO,
+		tempo_preparacao_neutro + tempo_ataque_neutro
+	)
+
+	# Sinaliza qual ataque está sendo preparado
 	tipo_ataque = 0
-	
-	# Ativa a Hitbox
-	colisao_atq_neutro.disabled = false
+
+	# Garante que a hitbox esteja desativada durante o aviso
+	colisao_atq_neutro.set_deferred("disabled", true)
+
+	# Mostra a área de aviso
 	efeito_atq_neutro.visible = true
-	
-	#O que o ataque faz
-	recuperar_energia(5)
-	print("Ataque neutro iniciado")
-	
-	# Espera o tempo do ataque
-	await get_tree().create_timer(tempo_ataque_neutro).timeout
-	
-	# Desativa a Hitbox
-	colisao_atq_neutro.disabled = true
+
+	print("Preparando ataque neutro")
+
+	# Aguarda o tempo de reação do adversário
+	await get_tree().create_timer(tempo_preparacao_neutro).timeout
+
+	# Encerra o aviso visual
 	efeito_atq_neutro.visible = false
 
+	# Ativa a hitbox após a preparação
+	colisao_atq_neutro.set_deferred("disabled", false)
+
+	# O que o ataque faz
+	recuperar_energia(5)
+	print("Ataque neutro iniciado")
+
+	# Aguarda a duração do ataque
+	await get_tree().create_timer(tempo_ataque_neutro).timeout
+
+	# Desativa a hitbox e esconde o indicador
+	colisao_atq_neutro.set_deferred("disabled", true)
+	efeito_atq_neutro.visible = false
+
+	print("Ataque neutro finalizado")
 
 func executar_especial(indice: int) -> void:
-
 	match indice:
 		1:
 			if (energia >= energia_ataque_1):
@@ -52,7 +69,7 @@ func executar_especial(indice: int) -> void:
 			else:
 				print("Sem energia para atacar")
 				gerenciador_estado.mudar_estado(GerenciadorEstado.Tipo.LIVRE)
-
+				
 		2:
 			if (energia >= energia_ataque_2):
 				ataque_especial_2()
@@ -74,104 +91,163 @@ func executar_especial(indice: int) -> void:
 				print("Sem energia para atacar")
 				gerenciador_estado.mudar_estado(GerenciadorEstado.Tipo.LIVRE)
 			
+
 #Funcao do primeiro ataque do kaiju (Cima)
 func ataque_especial_1() -> void:
-	#Mudanca de estado
-	gerenciador_estado.mudar_estado_temporario(GerenciadorEstado.Tipo.ATACANDO_ESPECIAL, tempo_ataque_1)
+	# Mantém o personagem ocupado durante preparação e execução
+	gerenciador_estado.mudar_estado_temporario(GerenciadorEstado.Tipo.ATACANDO_ESPECIAL,tempo_preparacao_1 + tempo_ataque_1)
 	
-	#Sinalização de qual ataque o kaiju está usando
+	# Sinaliza qual ataque está sendo utilizado
 	tipo_ataque = 1
-	
-	# Ativa a Hitbox
-	colisao_atq_especial1.disabled = false
+
+	# Garante que a hitbox esteja desativada durante a preparação
+	colisao_atq_especial1.set_deferred("disabled", true)
+
+	# Mostra a área de perigo
 	efeito_atq_especial1.visible = true
-	
-	#O que o ataque faz
-	print("Kaiju1 executou ataque especial 1 (cima)")
-	receber_dano(10)
-	print(vida)
-	
-	# Espera o tempo do ataque
-	await get_tree().create_timer(tempo_ataque_1).timeout
-	
-	# Desativa a Hitbox
-	colisao_atq_especial1.disabled = true
+
+	print("Preparando ataque especial 1")
+
+	# Aguarda o tempo de reação do adversário
+	await get_tree().create_timer(tempo_preparacao_1).timeout
+
+	# Esconde o indicador antes de executar o golpe
 	efeito_atq_especial1.visible = false
-	
+
+	# Ativa a hitbox
+	colisao_atq_especial1.set_deferred("disabled", false)
+
+	# Efeito do ataque
+	print("Kaiju1 executou ataque especial 1 (cima)")
+
+	# Aguarda a duração do ataque
+	await get_tree().create_timer(tempo_ataque_1).timeout
+
+	# Desativa a hitbox
+	colisao_atq_especial1.set_deferred("disabled", true)
+
+	print("Ataque especial 1 finalizado")
 
 
 #Funcao do segundo ataque do kaiju (Direita)
 func ataque_especial_2() -> void:
-	#Mudanca de estado
-	gerenciador_estado.mudar_estado_temporario(GerenciadorEstado.Tipo.ATACANDO_ESPECIAL,tempo_ataque_2)
-	
-	#Sinalização de qual ataque o kaiju está usando
+	# Mantém o personagem ocupado durante preparação e execução
+	gerenciador_estado.mudar_estado_temporario(
+		GerenciadorEstado.Tipo.ATACANDO_ESPECIAL,
+		tempo_preparacao_2 + tempo_ataque_2
+	)
+
+	# Sinaliza qual ataque está sendo utilizado
 	tipo_ataque = 2
-	
-	# Ativa a Hitbox
-	colisao_atq_especial2.disabled = false
+
+	# Garante que a hitbox esteja desativada durante a preparação
+	colisao_atq_especial2.set_deferred("disabled", true)
+
+	# Mostra a área de perigo
 	efeito_atq_especial2.visible = true
-	
-	#O que o ataque faz
-	print("Kaiju1 executou ataque especial 2 (direita)")
-	print(vida)
-	
-	# Espera o tempo do ataque
-	await get_tree().create_timer(tempo_ataque_2).timeout
-	
-	# Desativa a Hitbox
-	colisao_atq_especial2.disabled = true
+
+	print("Preparando ataque especial 2")
+
+	# Aguarda o tempo de reação do adversário
+	await get_tree().create_timer(tempo_preparacao_2).timeout
+
+	# Esconde o indicador antes de executar o golpe
 	efeito_atq_especial2.visible = false
 
+	# Ativa a hitbox
+	colisao_atq_especial2.set_deferred("disabled", false)
+
+	# Efeito do ataque
+	print("Kaiju1 executou ataque especial 2 (direita)")
+
+	# Aguarda a duração do ataque
+	await get_tree().create_timer(tempo_ataque_2).timeout
+
+	# Desativa a hitbox
+	colisao_atq_especial2.set_deferred("disabled", true)
+
+	print("Ataque especial 2 finalizado")
 
 #Funcao do terceiro ataque do kaiju (Baixo)
 func ataque_especial_3() -> void:
-	#Mudanca de estado
-	gerenciador_estado.mudar_estado_temporario(GerenciadorEstado.Tipo.ATACANDO_ESPECIAL,tempo_ataque_3)
-	
-	#Sinalização de qual ataque o kaiju está usando
+	# Mantém o personagem ocupado durante preparação e execução
+	gerenciador_estado.mudar_estado_temporario(
+		GerenciadorEstado.Tipo.ATACANDO_ESPECIAL,
+		tempo_preparacao_3 + tempo_ataque_3
+	)
+
+	# Sinaliza qual ataque está sendo utilizado
 	tipo_ataque = 3
-	
-	# Ativa a Hitbox
-	colisao_atq_especial3.disabled = false
+
+	# Garante que a hitbox esteja desativada durante a preparação
+	colisao_atq_especial3.set_deferred("disabled", true)
+
+	# Mostra a área de perigo
 	efeito_atq_especial3.visible = true
-	
-	#O que o ataque faz
+
+	print("Preparando ataque especial 3")
+
+	# Aguarda o tempo de reação do adversário
+	await get_tree().create_timer(tempo_preparacao_3).timeout
+
+	# Esconde o indicador antes de executar o golpe
+	efeito_atq_especial3.visible = false
+
+	# Ativa a hitbox
+	colisao_atq_especial3.set_deferred("disabled", false)
+
+	# Efeito do ataque
 	print("Kaiju1 executou ataque especial 3 (baixo)")
 	usar_energia(10)
 	print(energia)
-	
-	# Espera o tempo do ataque
+
+	# Aguarda a duração do ataque
 	await get_tree().create_timer(tempo_ataque_3).timeout
-	
-	# Desativa a Hitbox
-	colisao_atq_especial3.disabled = true
-	efeito_atq_especial3.visible = false
 
+	# Desativa a hitbox
+	colisao_atq_especial3.set_deferred("disabled", true)
 
+	print("Ataque especial 3 finalizado")
 
 #Funcao do quarto ataque do kaiju (Esquerda)	
 func ataque_especial_4() -> void:
-	#Mudanca de estado
-	gerenciador_estado.mudar_estado_temporario(GerenciadorEstado.Tipo.ATACANDO_ESPECIAL,tempo_ataque_4)
-	
-	#Sinalização de qual ataque o kaiju está usando
+	# Mantém o personagem ocupado durante preparação e execução
+	gerenciador_estado.mudar_estado_temporario(
+		GerenciadorEstado.Tipo.ATACANDO_ESPECIAL,
+		tempo_preparacao_4 + tempo_ataque_4
+	)
+
+	# Sinaliza qual ataque está sendo utilizado
 	tipo_ataque = 4
-	
-	# Ativa a Hitbox
-	colisao_atq_especial4.disabled = false
+
+	# Garante que a hitbox esteja desativada durante a preparação
+	colisao_atq_especial4.set_deferred("disabled", true)
+
+	# Mostra a área de perigo
 	efeito_atq_especial4.visible = true
-	
-	#O que o ataque faz
-	print("Kaiju1 executou ataque especial 4 (esquerda)")
-	print(energia)
-	
-	# Espera o tempo do ataque
-	await get_tree().create_timer(tempo_ataque_4).timeout
-	
-	# Desativa a Hitbox
-	colisao_atq_especial4.disabled = true
+
+	print("Preparando ataque especial 4")
+
+	# Aguarda o tempo de reação do adversário
+	await get_tree().create_timer(tempo_preparacao_4).timeout
+
+	# Esconde o indicador antes de executar o golpe
 	efeito_atq_especial4.visible = false
+
+	# Ativa a hitbox
+	colisao_atq_especial4.set_deferred("disabled", false)
+
+	# Efeito do ataque
+	print("Kaiju1 executou ataque especial 4 (esquerda)")
+
+	# Aguarda a duração do ataque
+	await get_tree().create_timer(tempo_ataque_4).timeout
+
+	# Desativa a hitbox
+	colisao_atq_especial4.set_deferred("disabled", true)
+
+	print("Ataque especial 4 finalizado")
+
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:

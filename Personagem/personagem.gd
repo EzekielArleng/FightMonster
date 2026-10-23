@@ -19,10 +19,15 @@ extends CharacterBody2D
 
 @export_category("Tempo Ataques")
 @export var tempo_ataque_neutro: float
+@export var tempo_preparacao_neutro: float = 0.4
 @export var tempo_ataque_1: float
+@export var tempo_preparacao_1: float = 0.4
 @export var tempo_ataque_2: float
+@export var tempo_preparacao_2: float = 0.4
 @export var tempo_ataque_3: float
+@export var tempo_preparacao_3: float = 0.4
 @export var tempo_ataque_4: float
+@export var tempo_preparacao_4: float = 0.4
 
 @export_category("Energia Ataques")
 @export var energia_ataque_1: float
@@ -55,6 +60,11 @@ var input_vector: Vector2 = Vector2.ZERO
 
 var gerenciador_estado: GerenciadorEstado = GerenciadorEstado.new()
 
+@onready var indicador_atq_neutro: Polygon2D = $Hitbox_atq_neutro/Polygon2D
+
+@export_category("Configuração do Jogador")
+@export_range(1, 2, 1) var jogador: int = 1
+
 func _process(delta: float) -> void:
 	if (botao_defesa_pressionado):
 		tempo_botao_defesa += delta
@@ -68,8 +78,15 @@ func _process(delta: float) -> void:
 	if (not gerenciador_estado.esta_livre() and not gerenciador_estado.esta_bloqueando()):
 		return
 
-	var horizontal := Input.get_axis("ui_left", "ui_right")
-	var vertical := Input.get_axis("ui_up", "ui_down")
+	var horizontal := Input.get_axis(
+		acao("Mov_esquerda"),
+		acao("Mov_direita")
+	)
+
+	var vertical := Input.get_axis(
+		acao("Mov_cima"),
+		acao("Mov_baixo")
+	)
 
 	if (horizontal != 0):
 		input_vector.x = horizontal
@@ -96,19 +113,16 @@ func movimentar() -> void:
 
 func _input(event: InputEvent) -> void:
 	
-	if event.is_action_pressed("ui_accept"):
-		receber_knockback(Vector2.LEFT, 700.0)
-	
 	# Iniciar bloqueio
-	if event.is_action_pressed("Block_evasao"):
+	if event.is_action_pressed(acao("Block_evasao")):
 		if (gerenciador_estado.esta_livre()):
 			botao_defesa_pressionado = true
 			tempo_botao_defesa = 0.0
 			print("Botão de defesa pressionado")
 		return
 
-# Finalizar bloqueio
-	if (event.is_action_released("Block_evasao")):
+	# Finalizar bloqueio
+	if (event.is_action_released(acao("Block_evasao"))):
 		if (botao_defesa_pressionado):
 			botao_defesa_pressionado = false
 			if (gerenciador_estado.esta_bloqueando()):
@@ -123,13 +137,13 @@ func _input(event: InputEvent) -> void:
 		return
 		
 	# Soltar X sem escolher um ataque cancela a seleção
-	if event.is_action_released("Ataque_especial"):
+	if event.is_action_released(acao("Ataque_especial")):
 		if gerenciador_estado.esta_selecionando_especial():
 			gerenciador_estado.cancelar_selecao_especial()
 		return
 
 	# Abrir a roda de ataques especiais
-	if event.is_action_pressed("Ataque_especial"):
+	if event.is_action_pressed(acao("Ataque_especial")):
 		if gerenciador_estado.esta_livre():
 			gerenciador_estado.iniciar_selecao_especial()
 			print("Seleção de ataque especial iniciada")
@@ -137,18 +151,18 @@ func _input(event: InputEvent) -> void:
 
 	# Escolher um ataque enquanto a roda está aberta
 	if gerenciador_estado.esta_selecionando_especial():
-		if event.is_action_pressed("ui_up"):
+		if event.is_action_pressed(acao("Mov_cima")):
 			selecionar_especial(1)
-		elif event.is_action_pressed("ui_right"):
+		elif event.is_action_pressed(acao("Mov_direita")):
 			selecionar_especial(2)
-		elif event.is_action_pressed("ui_down"):
+		elif event.is_action_pressed(acao("Mov_baixo")):
 			selecionar_especial(3)
-		elif event.is_action_pressed("ui_left"):
+		elif event.is_action_pressed(acao("Mov_esquerda")):
 			selecionar_especial(4)
 		return
 
 	# Ataque neutro
-	if event.is_action_pressed("Ataque_neutro"):
+	if event.is_action_pressed(acao("Ataque_neutro")):
 		if gerenciador_estado.esta_livre():
 			atacar_neutro()
 
@@ -213,6 +227,8 @@ func iniciar_evasao() -> void:
 	)
 	
 	set_collision_mask_value(2, false)
+	set_collision_layer_value(2, false)
+	print("Máscara durante evasão: ", get_collision_mask_value(2))
 	
 	print("Evasão iniciada")
 	print("Direção da evasão: ", direcao_evasao)
@@ -225,6 +241,8 @@ func iniciar_evasao() -> void:
 		)
 	
 	set_collision_mask_value(2, true)
+	set_collision_layer_value(2, true)
+	print("Máscara após evasão: ", get_collision_mask_value(2))
 		
 	print("Evasão finalizada")
 		
@@ -272,3 +290,12 @@ func movimentar_knockback(delta: float) -> void:
 		)
 		
 		print("KNOCKBACK finalizado")
+
+func mostrar_telegraph(indicador: Polygon2D) -> void:
+	indicador.visible = true
+	
+func ocultar_telegraph(indicador: Polygon2D) -> void:
+	indicador.visible = false
+	
+func acao(nome: String) -> String:
+	return nome + "_p" + str(jogador)
