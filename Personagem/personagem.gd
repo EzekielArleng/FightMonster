@@ -65,6 +65,12 @@ var gerenciador_estado: GerenciadorEstado = GerenciadorEstado.new()
 @export_category("Configuração do Jogador")
 @export_range(1, 2, 1) var jogador: int = 1
 
+@export_category("Interação")
+@export var alcance_interacao: float = 160.0
+@export var tempo_arremesso: float = 0.25
+
+var objeto_carregado: ObjetoArremessavel = null
+
 func _process(delta: float) -> void:
 	if (botao_defesa_pressionado):
 		tempo_botao_defesa += delta
@@ -161,10 +167,19 @@ func _input(event: InputEvent) -> void:
 			selecionar_especial(4)
 		return
 
-	# Ataque neutro
+		# Pegar objeto próximo
+	if event.is_action_pressed(acao("Interagir")):
+		if gerenciador_estado.esta_livre():
+			tentar_pegar_objeto()
+		return
+
+	# Ataque neutro (se estiver carregando um objeto, arremessa em vez de atacar)
 	if event.is_action_pressed(acao("Ataque_neutro")):
 		if gerenciador_estado.esta_livre():
-			atacar_neutro()
+			if (objeto_carregado != null):
+				arremessar_objeto()
+			else:
+				atacar_neutro()
 
 func atacar_neutro() -> void:
 	pass
@@ -299,3 +314,44 @@ func ocultar_telegraph(indicador: Polygon2D) -> void:
 	
 func acao(nome: String) -> String:
 	return nome + "_p" + str(jogador)
+	
+func tentar_pegar_objeto() -> void:
+	if (objeto_carregado != null):
+		return
+
+	# Procura o objeto livre mais próximo dentro do alcance
+	var mais_proximo: ObjetoArremessavel = null
+	var menor_distancia: float = alcance_interacao
+
+	for no in get_tree().get_nodes_in_group("objeto_arremessavel"):
+		var objeto := no as ObjetoArremessavel
+		if (objeto == null or not objeto.pode_ser_pego()):
+			continue
+
+		var distancia: float = global_position.distance_to(objeto.global_position)
+		if (distancia <= menor_distancia):
+			menor_distancia = distancia
+			mais_proximo = objeto
+
+	if (mais_proximo == null):
+		print("Nenhum objeto ao alcance")
+		return
+
+	objeto_carregado = mais_proximo
+	objeto_carregado.pegar(self)
+	print("Objeto pego")
+
+func arremessar_objeto() -> void:
+	# Mesma linha do ataque básico: do centro do personagem até a hitbox do ataque neutro
+	var hitbox: Area2D = $Hitbox_atq_neutro
+	var direcao: Vector2 = (hitbox.global_position - global_position).normalized()
+
+	# Trava o personagem por um instante, como se fosse um ataque
+	gerenciador_estado.mudar_estado_temporario(
+		GerenciadorEstado.Tipo.ATACANDO_NEUTRO,
+		tempo_arremesso
+	)
+
+	objeto_carregado.arremessar(direcao)
+	objeto_carregado = null
+	print("Objeto arremessado")

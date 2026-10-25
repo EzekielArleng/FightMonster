@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bp4gdcxe5xky8"]
+
+[ext_resource type="Script" uid="uid://fvhritfmh4a6" path="res://Cenario/objeto_arremessavel.gd" id="1_dsc0m"]
+[ext_resource type="Texture2D" uid="uid://dsv63o3njqye8" path="res://icon.svg" id="1_isua7"]
+
+[node name="ObjetoArremessavel" type="Node2D" unique_id=987144062]
+script = ExtResource("1_dsc0m")
+
+[node name="Sombra" type="Sprite2D" parent="." unique_id=1154539686]
+modulate = Color(0, 0, 0, 0.39215687)
+scale = Vector2(0.5, 0.2)
+texture = ExtResource("1_isua7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2110930960]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_isua7")

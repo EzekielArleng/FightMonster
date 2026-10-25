@@ -1,19 +1,13 @@
 [gd_scene format=3 uid="uid://k6ikrd86g5dk"]
 
-[ext_resource type="PackedScene" uid="uid://y2ck0x7unhql" path="res://Personagem/Kaiju_1/kaiju_1.tscn" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://bpgghpyfajhh3" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://dpulvygpbbnrr" path="res://Cenario/Obstaculo_teste.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dnbirqv1bcfyw" path="res://pause_menu.tscn" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://boh1dylvl7r4x" path="res://Personagem/Kaiju2/kaiju_2.tscn" id="5_7mycd"]
+[ext_resource type="PackedScene" uid="uid://bp4gdcxe5xky8" path="res://Cenario/objeto_arremessavel.tscn" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://die8ux4xqbh4g" path="res://Cenario/arena.tscn" id="5_lquwl"]
 
 [node name="Main" type="Node2D" unique_id=1950958831]
-
-[node name="Kaiju1" parent="." unique_id=2143121448 instance=ExtResource("1_0xm2m")]
-position = Vector2(148, 319)
-
-[node name="Kaiju2" parent="." unique_id=1162536013 instance=ExtResource("5_7mycd")]
-position = Vector2(909, 326)
-jogador = 2
+script = ExtResource("1_1bvp3")
 
 [node name="Label" type="Label" parent="." unique_id=1338928723]
 offset_left = 582.0
@@ -32,3 +26,15 @@ position = Vector2(617, 322)
 layer = 100
 
 [node name="PauseMenu" parent="PauseLayer" unique_id=995122436 instance=ExtResource("4_1bvp3")]
+
+[node name="SpawnP1" type="Marker2D" parent="." unique_id=373379113]
+position = Vector2(148, 319)
+
+[node name="SpawnP2" type="Marker2D" parent="." unique_id=510769201]
+position = Vector2(909, 326)
+
+[node name="ObjetoEsquerda" parent="." unique_id=987144062 instance=ExtResource("5_7mycd")]
+position = Vector2(300, 450)
+
+[node name="ObjetoDireita" parent="." unique_id=1664205733 instance=ExtResource("5_7mycd")]
+position = Vector2(850, 200)
