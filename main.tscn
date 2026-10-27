@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://k6ikrd86g5dk"]
+
+[ext_resource type="Script" uid="uid://bpgghpyfajhh3" path="res://main.gd" id="1_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://dpulvygpbbnrr" path="res://Cenario/Obstaculo_teste.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://dnbirqv1bcfyw" path="res://pause_menu.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://bp4gdcxe5xky8" path="res://Cenario/objeto_arremessavel.tscn" id="5_7mycd"]
+[ext_resource type="PackedScene" uid="uid://die8ux4xqbh4g" path="res://Cenario/arena.tscn" id="5_lquwl"]
+
+[node name="Main" type="Node2D" unique_id=1950958831]
+script = ExtResource("1_1bvp3")
+
+[node name="Label" type="Label" parent="." unique_id=1338928723]
+offset_left = 582.0
+offset_top = 190.0
+offset_right = 692.0
+offset_bottom = 283.0
+theme_override_font_sizes/font_size = 32
+text = "Neutro"
+
+[node name="arena" parent="." unique_id=394513612 instance=ExtResource("5_lquwl")]
+
+[node name="ObstaculoTeste" parent="." unique_id=780299668 instance=ExtResource("2_h2yge")]
+position = Vector2(617, 322)
+
+[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=1416717981]
+layer = 100
+
+[node name="PauseMenu" parent="PauseLayer" unique_id=995122436 instance=ExtResource("4_1bvp3")]
+
+[node name="SpawnP1" type="Marker2D" parent="." unique_id=373379113]
+position = Vector2(148, 319)
+
+[node name="SpawnP2" type="Marker2D" parent="." unique_id=510769201]
+position = Vector2(909, 326)
+
+[node name="ObjetoEsquerda" parent="." unique_id=987144062 instance=ExtResource("5_7mycd")]
+position = Vector2(300, 450)
+
+[node name="ObjetoDireita" parent="." unique_id=1664205733 instance=ExtResource("5_7mycd")]
+position = Vector2(850, 200)
