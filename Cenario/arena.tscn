@@ -1,5 +1,13 @@
 [gd_scene format=3 uid="uid://die8ux4xqbh4g"]
 
+[ext_resource type="Script" uid="uid://dk6enqdps4mpn" path="res://Cenario/arena.gd" id="1_xw565"]
+[ext_resource type="Texture2D" uid="uid://biaemankyvu0b" path="res://Sprites/arena/FightMonster_cenario_relacao_de_tamanho.png" id="2_gicmj"]
+[ext_resource type="AudioStream" uid="uid://dr4gu33wrp0pj" path="res://Sons/Soudtrakc_cenario/soudtrack_teste.mp3" id="2_hsl7h"]
+[ext_resource type="Texture2D" uid="uid://ci8gys2trrcu6" path="res://Sprites/Health_bar/Empty health bar.png" id="3_0unae"]
+[ext_resource type="Script" uid="uid://da14521d47dbi" path="res://Cenario/hud.gd" id="3_kaeiq"]
+[ext_resource type="Texture2D" uid="uid://cxxp2h8fu2oqv" path="res://Sprites/Health_bar/preenchimento_vida.png" id="4_aalfe"]
+[ext_resource type="Texture2D" uid="uid://nv6o5dxmlgml" path="res://Sprites/Health_bar/preenchimento_energia.png" id="5_kaeiq"]
+
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_t1lyo"]
 a = Vector2(-3, 652)
 
@@ -12,6 +20,13 @@ a = Vector2(1238, -43)
 b = Vector2(1241, 602)
 
 [node name="arena" type="Node2D" unique_id=394513612]
+script = ExtResource("1_xw565")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=250986727]
+z_index = -1
+scale = Vector2(3, 3)
+texture = ExtResource("2_gicmj")
+centered = false
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1563510157]
 position = Vector2(-89, 55)
@@ -32,3 +47,77 @@ shape = SubResource("SegmentShape2D_rpq8i")
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D" unique_id=592300010]
 position = Vector2(83, 564)
 shape = SubResource("SegmentShape2D_jblln")
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="." unique_id=150771570]
+stream = ExtResource("2_hsl7h")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1581687105]
+script = ExtResource("3_kaeiq")
+
+[node name="Interface" type="Control" parent="HUD" unique_id=1710955165]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BarraVidaFundo" type="TextureRect" parent="HUD/Interface" unique_id=2078394582]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 100.0
+scale = Vector2(4, 4)
+texture = ExtResource("3_0unae")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="PreenchimentoVida" type="TextureRect" parent="HUD/Interface/BarraVidaFundo" unique_id=1845211951]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 11.500002
+offset_right = 1767.0
+offset_bottom = 110.5
+scale = Vector2(0.048, 0.05)
+texture = ExtResource("4_aalfe")
+expand_mode = 1
+
+[node name="PreenchimentoEnergia" type="TextureRect" parent="HUD/Interface/BarraVidaFundo" unique_id=1098530569]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 17.5
+offset_right = 1077.0
+offset_bottom = 60.5
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("5_kaeiq")
+expand_mode = 1
+
+[node name="BarraVidaFundo2" type="TextureRect" parent="HUD/Interface" unique_id=669367118]
+layout_mode = 0
+offset_left = 742.0
+offset_top = 4.0
+offset_right = 1242.0
+offset_bottom = 104.0
+scale = Vector2(4, 4)
+texture = ExtResource("3_0unae")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="PreenchimentoVida2" type="TextureRect" parent="HUD/Interface/BarraVidaFundo2" unique_id=2016668777]
+layout_mode = 0
+offset_left = 6.25
+offset_top = 12.0
+offset_right = 1764.25
+offset_bottom = 111.0
+scale = Vector2(0.048, 0.05)
+texture = ExtResource("4_aalfe")
+expand_mode = 1
+
+[node name="PreenchimentoEnergia2" type="TextureRect" parent="HUD/Interface/BarraVidaFundo2" unique_id=909125929]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 17.5
+offset_right = 1077.0
+offset_bottom = 60.5
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("5_kaeiq")
+expand_mode = 1

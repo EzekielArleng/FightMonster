@@ -1,12 +1,146 @@
 [gd_scene format=3 uid="uid://boh1dylvl7r4x"]
 
 [ext_resource type="Script" uid="uid://50vtvecwhxcn" path="res://Personagem/Kaiju2/kaiju_2.gd" id="1_d7c3f"]
+[ext_resource type="Texture2D" uid="uid://bq84id3cclm7t" path="res://Sprites/metal_lad/atk_neutro/Metal_Lad_attack.png" id="2_eu5kf"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_c00ww"]
-load_path = "res://.godot/imported/3d235fe6499874d286e02caa6d1e9976.jpg-0f5d83ebbc366aecae98f594631546ba.ctex"
+[sub_resource type="AtlasTexture" id="AtlasTexture_d7c3f"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(0, 0, 128, 96)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_8woj3"]
-radius = 68.359344
+[sub_resource type="AtlasTexture" id="AtlasTexture_a88iy"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(0, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5a4u3"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(0, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6u7q"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(128, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8jak"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(256, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ph60o"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(384, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjrho"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(512, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukv42"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(640, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jbapk"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(768, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhck4"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(896, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s3ag8"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(1024, 0, 128, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eu5kf"]
+atlas = ExtResource("2_eu5kf")
+region = Rect2(0, 0, 128, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4hqbj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d7c3f")
+}],
+"loop": 0,
+"name": &"andando",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a88iy")
+}],
+"loop": 0,
+"name": &"atk_especial_3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5a4u3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6u7q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8jak")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ph60o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjrho")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukv42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jbapk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uhck4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s3ag8")
+}],
+"loop": 0,
+"name": &"atk_neutro",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a88iy")
+}],
+"loop": 1,
+"name": &"block",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a88iy")
+}],
+"loop": 0,
+"name": &"dash_frente",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a88iy")
+}],
+"loop": 0,
+"name": &"dash_tras",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eu5kf")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t1lyo"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"efeito_atk_especial_3",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rpq8i"]
 size = Vector2(125, 129)
@@ -28,91 +162,111 @@ radius = 128.47179
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t1lyo"]
 size = Vector2(274.5, 58)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_8woj3"]
+radius = 68.359344
+
 [node name="Kaiju2" type="CharacterBody2D" unique_id=2143121448]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_d7c3f")
+vida = 50.0
+energia = 50.0
+energia_max = 50.0
+dano_ataque_neutro = 10.0
+dano_ataque_1 = 5.0
+tempo_ataque_neutro = 1.0
+energia_ataque_1 = 10.0
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1279271685]
-position = Vector2(0, 0.9999695)
-scale = Vector2(0.23489009, 0.18130745)
-texture = SubResource("CompressedTexture2D_c00ww")
+[node name="Pivo" type="Node2D" parent="." unique_id=2110874058]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1819550659]
-visible = false
-shape = SubResource("CircleShape2D_8woj3")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Pivo" unique_id=1907470471]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_4hqbj")
+animation = &"atk_especial_3"
+autoplay = "default"
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=1641361658]
+[node name="AnimatedSprite_efeitos" type="AnimatedSprite2D" parent="Pivo" unique_id=215379453]
+sprite_frames = SubResource("SpriteFrames_t1lyo")
+animation = &"efeito_atk_especial_3"
+
+[node name="Hurtbox" type="Area2D" parent="Pivo" unique_id=1641361658]
 position = Vector2(0, -0.5)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=753867203]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivo/Hurtbox" unique_id=753867203]
 position = Vector2(0.5, 1)
 shape = SubResource("RectangleShape2D_rpq8i")
 
-[node name="Hitbox_atq_neutro" type="Area2D" parent="." unique_id=1319981221 groups=["Ataque_neutro"]]
+[node name="Hitbox_atq_neutro" type="Area2D" parent="Pivo" unique_id=1319981221 groups=["Ataque_neutro"]]
 position = Vector2(145, 4)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox_atq_neutro" unique_id=137637681]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivo/Hitbox_atq_neutro" unique_id=137637681]
 position = Vector2(-10, 2)
 shape = SubResource("RectangleShape2D_uykm6")
 disabled = true
 
-[node name="Polygon2D" type="Polygon2D" parent="Hitbox_atq_neutro" unique_id=125981028]
+[node name="Polygon2D" type="Polygon2D" parent="Pivo/Hitbox_atq_neutro" unique_id=125981028]
 visible = false
 color = Color(1, 0, 0, 0.36862746)
 polygon = PackedVector2Array(-79, -25, -80, 28, 57, 28, 59, -26)
 
-[node name="Hitbox_atq_especial1" type="Area2D" parent="." unique_id=587249194 groups=["Ataque_especial"]]
+[node name="Hitbox_atq_especial1" type="Area2D" parent="Pivo" unique_id=587249194 groups=["Ataque_especial"]]
 position = Vector2(145, 4)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox_atq_especial1" unique_id=975021293]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivo/Hitbox_atq_especial1" unique_id=975021293]
 position = Vector2(-10, 2)
 shape = SubResource("CapsuleShape2D_t1lyo")
 disabled = true
 
-[node name="Polygon2D" type="Polygon2D" parent="Hitbox_atq_especial1" unique_id=311559103]
+[node name="Polygon2D" type="Polygon2D" parent="Pivo/Hitbox_atq_especial1" unique_id=311559103]
 visible = false
 color = Color(0, 0, 1, 0.3764706)
 polygon = PackedVector2Array(-73, -102, -48, -130, -6, -144, 33, -126, 53, -94, 56, 90, 37, 130, -12, 144, -60, 121, -73, 76)
 
-[node name="Hitbox_atq_especial2" type="Area2D" parent="." unique_id=1215856629 groups=["Ataque_especial"]]
+[node name="Hitbox_atq_especial2" type="Area2D" parent="Pivo" unique_id=1215856629 groups=["Ataque_especial"]]
 position = Vector2(145, 4)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox_atq_especial2" unique_id=920110751]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivo/Hitbox_atq_especial2" unique_id=920110751]
 position = Vector2(-46, 0)
 rotation = -1.5607908
 shape = SubResource("CapsuleShape2D_jblln")
 disabled = true
 
-[node name="Polygon2D" type="Polygon2D" parent="Hitbox_atq_especial2" unique_id=865313953]
+[node name="Polygon2D" type="Polygon2D" parent="Pivo/Hitbox_atq_especial2" unique_id=865313953]
 visible = false
 color = Color(0, 1, 0, 0.38431373)
 polygon = PackedVector2Array(117, -53, -213, -57, -253, -30, -256, 16, -220, 49, 120, 55, 158, 30, 165, -23)
 
-[node name="Hitbox_atq_especial3" type="Area2D" parent="." unique_id=1796175296 groups=["Ataque_especial"]]
+[node name="Hitbox_atq_especial3" type="Area2D" parent="Pivo" unique_id=1796175296 groups=["Ataque_especial"]]
 position = Vector2(145, 4)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox_atq_especial3" unique_id=1329578402]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivo/Hitbox_atq_especial3" unique_id=1329578402]
 position = Vector2(-145, -5)
 shape = SubResource("CircleShape2D_rpq8i")
 disabled = true
 
-[node name="Polygon2D" type="Polygon2D" parent="Hitbox_atq_especial3" unique_id=873949866]
+[node name="Polygon2D" type="Polygon2D" parent="Pivo/Hitbox_atq_especial3" unique_id=873949866]
 visible = false
 color = Color(1, 1, 0, 0.5058824)
 polygon = PackedVector2Array(-145, -133, -206, -117, -254, -69, -270, -29, -271, -7, -264, 44, -246, 72, -222, 95, -191, 113, -155, 124, -106, 119, -70, 100, -37, 61, -19, 12, -17, -34, -45, -90, -84, -117)
 
-[node name="Hitbox_atq_especial4" type="Area2D" parent="." unique_id=1100673204 groups=["Ataque_especial"]]
+[node name="Hitbox_atq_especial4" type="Area2D" parent="Pivo" unique_id=1100673204 groups=["Ataque_especial"]]
 position = Vector2(145, 4)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox_atq_especial4" unique_id=892543063]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivo/Hitbox_atq_especial4" unique_id=892543063]
 position = Vector2(-100.25, -102)
 shape = SubResource("RectangleShape2D_t1lyo")
 disabled = true
 
-[node name="Polygon2D" type="Polygon2D" parent="Hitbox_atq_especial4" unique_id=1829416905]
+[node name="Polygon2D" type="Polygon2D" parent="Pivo/Hitbox_atq_especial4" unique_id=1829416905]
 visible = false
 color = Color(1, 0, 1, 0.41960785)
 polygon = PackedVector2Array(-237, -135, -239, -73, 40, -72, 40, -125)
 
-[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1819550659]
+visible = false
+shape = SubResource("CircleShape2D_8woj3")
+
+[node name="Som_atq_neutro" type="AudioStreamPlayer2D" parent="." unique_id=258765703]
+
+[connection signal="frame_changed" from="Pivo/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
+[connection signal="area_entered" from="Pivo/Hurtbox" to="." method="_on_hurtbox_area_entered"]

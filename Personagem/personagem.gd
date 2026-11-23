@@ -60,7 +60,11 @@ var input_vector: Vector2 = Vector2.ZERO
 
 var gerenciador_estado: GerenciadorEstado = GerenciadorEstado.new()
 
-@onready var indicador_atq_neutro: Polygon2D = $Hitbox_atq_neutro/Polygon2D
+var reproduzindo_animacao_evasao: bool = false
+
+@onready var indicador_atq_neutro: Polygon2D = $Pivo/Hitbox_atq_neutro/Polygon2D
+@onready var pivo: Node2D = $Pivo
+@onready var animacao: AnimatedSprite2D = $Pivo/AnimatedSprite2D
 
 @export_category("Configuração do Jogador")
 @export_range(1, 2, 1) var jogador: int = 1
@@ -70,6 +74,11 @@ var gerenciador_estado: GerenciadorEstado = GerenciadorEstado.new()
 @export var tempo_arremesso: float = 0.25
 
 var objeto_carregado: ObjetoArremessavel = null
+
+var som_arranhao_tocado: bool = false
+
+func _ready() -> void:
+	animacao.animation_finished.connect(_on_animacao_finished)
 
 func _process(delta: float) -> void:
 	if (botao_defesa_pressionado):
@@ -101,8 +110,10 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if (gerenciador_estado.esta_livre() or gerenciador_estado.esta_bloqueando()):
+	if (gerenciador_estado.esta_livre()):
 		movimentar()
+	elif (gerenciador_estado.esta_bloqueando()):
+		velocity = Vector2.ZERO
 	elif (gerenciador_estado.esta_evadindo()):
 		movimentar_evasao()
 	elif (gerenciador_estado.esta_em_knockback()):
@@ -112,10 +123,21 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+	if (gerenciador_estado.esta_bloqueando()):
+		if (animacao.animation != "block"):
+			animacao.play("block")
+	elif (gerenciador_estado.esta_livre() and not reproduzindo_animacao_evasao):
+		atualizar_animacao_movimento()
+
 
 func movimentar() -> void:
 	var target_velocity: Vector2 = input_vector * speed * 100.0
 	velocity = velocity.lerp(target_velocity, lerp_smoothness)
+
+	if (input_vector.x > 0):
+		pivo.scale.x = 1
+	elif (input_vector.x < 0):
+		pivo.scale.x = -1
 
 func _input(event: InputEvent) -> void:
 	
@@ -237,6 +259,17 @@ func iniciar_evasao() -> void:
 	
 	direcao_evasao = input_vector.normalized()
 	
+	reproduzindo_animacao_evasao = true
+	
+	# Escolher animação de acordo com a direção do dash
+	if (direcao_evasao.x * pivo.scale.x > 0):
+		animacao.play("dash_frente")
+	else:
+		animacao.play("dash_tras")
+	
+	print("Animação atual: ", animacao.animation)
+	print("Está reproduzindo: ", animacao.is_playing())
+	
 	gerenciador_estado.mudar_estado(
 		GerenciadorEstado.Tipo.EVADINDO
 	)
@@ -343,7 +376,7 @@ func tentar_pegar_objeto() -> void:
 
 func arremessar_objeto() -> void:
 	# Mesma linha do ataque básico: do centro do personagem até a hitbox do ataque neutro
-	var hitbox: Area2D = $Hitbox_atq_neutro
+	var hitbox: Area2D = $Pivo/Hitbox_atq_neutro
 	var direcao: Vector2 = (hitbox.global_position - global_position).normalized()
 
 	# Trava o personagem por um instante, como se fosse um ataque
@@ -355,3 +388,21 @@ func arremessar_objeto() -> void:
 	objeto_carregado.arremessar(direcao)
 	objeto_carregado = null
 	print("Objeto arremessado")
+
+func atualizar_animacao_movimento() -> void:
+	if (velocity.length() > 0.1):
+		animacao.play("andando")
+	else:
+		animacao.play("default")
+
+func _on_animacao_finished() -> void:
+	print("ANIMAÇÃO FINALIZADA: ", animacao.animation)
+	print("ESTADO LIVRE: ", gerenciador_estado.esta_livre())
+	
+	
+	if (animacao.animation == "dash_frente" or animacao.animation == "dash_tras"):
+		reproduzindo_animacao_evasao = false
+		print("FINALIZOU DASH")
+		if (gerenciador_estado.esta_livre()):
+			atualizar_animacao_movimento()
+			print("ANIMAÇÃO DE MOVIMENTO RESTAURADA")
