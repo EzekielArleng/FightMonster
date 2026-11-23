@@ -1,5 +1,6 @@
 class_name Personagem
 extends CharacterBody2D
+signal morreu(jogador: int)
 
 @export_category("Status")
 @export var vida: float
@@ -235,6 +236,7 @@ func receber_dano(dano: float) -> void:
 		morrer()
 	
 func morrer() -> void:
+	morreu.emit(jogador)
 	queue_free()
 	
 func usar_energia(energia_gasta: float) -> void:
