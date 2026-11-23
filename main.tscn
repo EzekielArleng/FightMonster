@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dnbirqv1bcfyw" path="res://pause_menu.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bp4gdcxe5xky8" path="res://Cenario/objeto_arremessavel.tscn" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://die8ux4xqbh4g" path="res://Cenario/arena.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://g2ma5kqvq84d" path="res://Menus/tela_final.tscn" id="6_7mycd"]
 
 [node name="Main" type="Node2D" unique_id=1950958831]
 script = ExtResource("1_1bvp3")
@@ -38,3 +39,8 @@ position = Vector2(300, 450)
 
 [node name="ObjetoDireita" parent="." unique_id=1664205733 instance=ExtResource("5_7mycd")]
 position = Vector2(850, 200)
+
+[node name="FimLayer" type="CanvasLayer" parent="." unique_id=1995271531]
+layer = 90
+
+[node name="TelaFinal" parent="FimLayer" unique_id=1894791053 instance=ExtResource("6_7mycd")]
